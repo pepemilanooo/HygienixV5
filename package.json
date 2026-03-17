@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Gestionale SaaS Disinfestazioni",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/apps/api/src/index.js",
-    "dev": "tsx apps/api/src/index.ts",
-    "db:push": "npx prisma db push"
+  "dev": "tsx apps/api/src/index.ts",
+  "start": "npm run dev",
+  "db:push": "npx prisma db push"
+}
   },
   "dependencies": {
     "express": "4.19.2",
