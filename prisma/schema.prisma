@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  role      String   // admin, tecnico, cliente
+  createdAt DateTime @default(now())
+  interventi Intervento[]
+}
+
+model Sede {
+  id          Int      @id @default(autoincrement())
+  nome        String
+  indirizzo   String
+  note        String?
+  cartelino   Json?    // {trappole: [], zoneCritiche: [], fotoRef: []}
+  createdAt   DateTime @default(now())
+  interventi  Intervento[]
+}
+
+model Intervento {
+  id             Int      @id @default(autoincrement())
+  sedeId         Int
+  tecnicoId      String
+  clienteId      String?
+  dataInizio     DateTime
+  dataFine       DateTime?
+  prodottiUsati  Json[]
+  foto           String[]  // S3 URLs
+  firmaTech      String?
+  firmaCliente   String?
+  pdfReport      String?   // S3 PDF URL
+  gpsCheckin     Json?
+  createdAt      DateTime  @default(now())
+  sede           Sede      @relation(fields: [sedeId], references: [id])
+  tecnico        User      @relation(fields: [tecnicoId], references: [id])
+}
